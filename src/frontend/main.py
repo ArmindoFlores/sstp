@@ -17,7 +17,7 @@ def main():
     ax.grid()
     
     for point in data:
-        ax.scatter(*point, color="red")
+        ax.scatter([p[0] for p in data], [p[1] for p in data], color="red")
     
     lim = (min(min(p[0] for p in data), min(p[1] for p in data))-0.5, max(max(p[0] for p in data), max(p[1] for p in data))+0.5)    
     
