@@ -165,7 +165,7 @@ namespace SSTP {
         for (size_t i = 0; i < v.vec.size(); i++) {
             os << v.vec[i];
             if (i != v.vec.size() - 1) {
-                os << " ";
+                os << ", ";
             }
         }
         os << "]";
