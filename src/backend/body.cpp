@@ -33,7 +33,7 @@ SSTP::Vector SSTP::Body::position() const
     else {
         throw std::invalid_argument("Not implemented!");
     }
-    return f2 + result;
+    return f1 + result;
 }
 
 double SSTP::Body::semi_major_axis() const
@@ -96,7 +96,7 @@ void SSTP::Body::calculate_parameters(const SSTP::Vector& f1, const SSTP::Vector
     e = c / a;
     b = std::sqrt(a*a * (1 - e*e));
 
-    Vector displacement = f2 - f1;
-    i = std::atan2(displacement[1], displacement[0]);
+    Vector displacement = f1 - f2;
+    i = std::atan2(displacement[0], displacement[1]);
     theta = 0;
 }

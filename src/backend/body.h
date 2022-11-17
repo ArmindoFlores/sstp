@@ -21,7 +21,6 @@ namespace SSTP {
     public:
         Body(const Vector& f1, const Vector& f2, double semi_major_axis);
 
-        Vector velocity() const;
         Vector position() const;
         OrbitType orbit_type() const;
         double semi_major_axis() const;
