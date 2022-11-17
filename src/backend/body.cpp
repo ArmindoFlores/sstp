@@ -26,14 +26,14 @@ SSTP::Vector SSTP::Body::position() const
 {
     Vector result ({f1.dimension()});
     if (result.dimension() == 2) {
-        double r = radius(), E = eccentric_anomaly();
-        result[0] = r * std::cos(theta);
-        result[1] = r * std::sin(theta);
+        double r = radius();
+        result[0] = r * std::cos(theta + i);
+        result[1] = r * std::sin(theta + i);
     }
     else {
         throw std::invalid_argument("Not implemented!");
     }
-    return f1 - result;
+    return f2 + result;
 }
 
 double SSTP::Body::semi_major_axis() const
@@ -95,5 +95,8 @@ void SSTP::Body::calculate_parameters(const SSTP::Vector& f1, const SSTP::Vector
     c = (f1 - f2).length() / 2;
     e = c / a;
     b = std::sqrt(a*a * (1 - e*e));
+
+    Vector displacement = f2 - f1;
+    i = std::atan2(displacement[1], displacement[0]);
     theta = 0;
 }

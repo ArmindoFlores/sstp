@@ -34,7 +34,7 @@ namespace SSTP {
         void set_angle(double angle);
 
     private:
-        double a, b, c, e, theta, r;
+        double a, b, c, e, theta, r, i;
         Vector f1, f2;
 
         void calculate_parameters(const Vector& f1, const Vector& f2, double semi_major_axis);
