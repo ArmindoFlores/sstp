@@ -19,7 +19,7 @@ namespace SSTP {
     */
     class Body {
     public:
-        Body(const Vector& f1, const Vector& f2, double semi_major_axis);
+        Body(const Vector& direction, double semi_major_axis, double excentricity);
 
         Vector position() const;
         OrbitType orbit_type() const;
@@ -34,9 +34,9 @@ namespace SSTP {
 
     private:
         double a, b, c, e, theta, r, i;
-        Vector f1, f2;
+        Vector direction;
 
-        void calculate_parameters(const Vector& f1, const Vector& f2, double semi_major_axis);
+        void calculate_parameters(const Vector& direction, double semi_major_axis, double excentricity);
         double r_from_theta() const;
     };
 }

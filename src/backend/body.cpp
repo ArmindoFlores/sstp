@@ -7,33 +7,28 @@ const char* SSTP::orbit_type_to_string(SSTP::OrbitType ot)
     return text[std::size_t(ot)];    
 }
 
-SSTP::Body::Body(const SSTP::Vector& f1, const SSTP::Vector& f2, double a) : a(a), f1(f1), f2(f2)
+SSTP::Body::Body(const SSTP::Vector& direction, double a, double e) : a(a), e(e), direction(direction)
 {
-    if (f1.dimension() != f2.dimension()) {
+    if (direction.dimension() < 2 || direction.dimension() > 3) {
         throw std::invalid_argument(
-            "f1 and f2 should have the same dimension (" + std::to_string(f1.dimension()) + " != " + std::to_string(f2.dimension()) + ")"
+            "direction should be a 2D or 3D vector (is " + std::to_string(direction.dimension()) + "D)"
         );
     }
-    if (f1.dimension() < 2 || f1.dimension() > 3) {
-        throw std::invalid_argument(
-            "f1 and f2 should be 2D or 3D vectors (were " + std::to_string(f1.dimension()) + "D)"
-        );
-    }
-    calculate_parameters(f1, f2, a);
+    calculate_parameters(direction, a, e);
 }
 
 SSTP::Vector SSTP::Body::position() const
 {
-    Vector result ({f1.dimension()});
-    if (result.dimension() == 2) {
+    Vector result{direction.dimension()};
+    if (direction.dimension() == 2) {
         double r = radius();
-        result[0] = r * std::cos(theta + i);
-        result[1] = r * std::sin(theta + i);
+        result[0] = r * std::cos(theta - i);
+        result[1] = r * std::sin(theta - i);
     }
     else {
         throw std::invalid_argument("Not implemented!");
     }
-    return f1 + result;
+    return result;
 }
 
 double SSTP::Body::semi_major_axis() const
@@ -90,13 +85,16 @@ void SSTP::Body::set_angle(double angle)
     theta = angle;
 }
 
-void SSTP::Body::calculate_parameters(const SSTP::Vector& f1, const SSTP::Vector& f2, double a)
+void SSTP::Body::calculate_parameters(const SSTP::Vector& direction, double a, double e)
 {
-    c = (f1 - f2).length() / 2;
-    e = c / a;
+    double l = direction.length();
+    if (l != 1) {
+        this->direction /= l;
+    }
+
+    c = a * e;
     b = std::sqrt(a*a * (1 - e*e));
 
-    Vector displacement = f1 - f2;
-    i = std::atan2(displacement[0], displacement[1]);
+    i = std::atan2(direction[1], direction[0]);
     theta = 0;
 }
