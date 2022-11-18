@@ -1,10 +1,11 @@
 #include "ipc.h"
 #include <algorithm>
 #include <future>
+#include <iostream>
+#include <sstream>
 #include <boost/json/src.hpp>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <iostream>
 
 SSTP::IPCServer::IPCServer(const std::string& socket_path) : socket_path(socket_path), socketfd(-1) {}
 SSTP::IPCServer::~IPCServer()
