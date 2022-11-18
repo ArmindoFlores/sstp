@@ -16,8 +16,9 @@ def main():
     ax = fig.add_subplot(111)
     ax.grid()
     
-    for point in data:
-        ax.scatter([p[0] for p in data], [p[1] for p in data], color="red")
+    ax.scatter([p[0] for p in data], [p[1] for p in data], color="red")
+    
+    ax.scatter(0, 0, color="blue")
     
     lim = (min(min(p[0] for p in data), min(p[1] for p in data))-0.5, max(max(p[0] for p in data), max(p[1] for p in data))+0.5)    
     
