@@ -9,12 +9,13 @@ const char* SSTP::orbit_type_to_string(SSTP::OrbitType ot)
 
 SSTP::Body::Body(const SSTP::Vector& direction, double a, double e) : a(a), e(e), theta(0), direction(direction)
 {
+    this->direction *= -1;
     if (direction.dimension() < 2 || direction.dimension() > 3) {
         throw std::invalid_argument(
             "direction should be a 2D or 3D vector (is " + std::to_string(direction.dimension()) + "D)"
         );
     }
-    calculate_parameters(direction, a, e);
+    calculate_parameters(this->direction, a, e);
 }
 
 SSTP::Vector SSTP::Body::position() const
@@ -22,8 +23,8 @@ SSTP::Vector SSTP::Body::position() const
     Vector result{direction.dimension()};
     if (direction.dimension() == 2) {
         double r = radius();
-        result[0] = r * std::cos(theta - i);
-        result[1] = r * std::sin(theta - i);
+        result[0] = r * std::cos(theta + i);
+        result[1] = r * std::sin(theta + i);
     }
     else {
         throw std::invalid_argument("Not implemented!");
