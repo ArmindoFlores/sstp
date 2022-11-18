@@ -33,11 +33,10 @@ namespace SSTP {
         void set_angle(double angle);
 
     private:
-        double a, b, c, e, theta, r, i;
+        double a, b, c, e, theta, i;
         Vector direction;
 
         void calculate_parameters(const Vector& direction, double semi_major_axis, double excentricity);
-        double r_from_theta() const;
     };
 }
 

@@ -7,7 +7,7 @@ const char* SSTP::orbit_type_to_string(SSTP::OrbitType ot)
     return text[std::size_t(ot)];    
 }
 
-SSTP::Body::Body(const SSTP::Vector& direction, double a, double e) : a(a), e(e), direction(direction)
+SSTP::Body::Body(const SSTP::Vector& direction, double a, double e) : a(a), e(e), theta(0), direction(direction)
 {
     if (direction.dimension() < 2 || direction.dimension() > 3) {
         throw std::invalid_argument(
@@ -94,7 +94,5 @@ void SSTP::Body::calculate_parameters(const SSTP::Vector& direction, double a, d
 
     c = a * e;
     b = std::sqrt(a*a * (1 - e*e));
-
     i = std::atan2(direction[1], direction[0]);
-    theta = 0;
 }
