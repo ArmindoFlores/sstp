@@ -1,4 +1,4 @@
-CFLAGS := -std=c++17 -g -Wall -pedantic
+CFLAGS := -std=c++17 -g -Wall -pedantic -pthread
 C := g++
 
 MKDIRCMD := mkdir 
