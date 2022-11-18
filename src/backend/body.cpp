@@ -71,6 +71,11 @@ double SSTP::Body::radius() const
     return a * (1 - e*e) / (1 + e * std::cos(theta));
 }
 
+double SSTP::Body::inclination() const 
+{
+    return i;
+}
+
 double SSTP::Body::eccentric_anomaly() const
 {
     return std::atan2(std::sqrt(1 - e*e) * std::sin(theta), e + std::cos(theta));
@@ -90,9 +95,9 @@ SSTP::OrbitType SSTP::Body::orbit_type() const
     return OrbitType::HYPERBOLIC;
 }
 
-const SSTP::Vector &SSTP::Body::direction() const
+SSTP::Vector SSTP::Body::direction() const
 {
-    return d;
+    return -1*d;
 }
 
 void SSTP::Body::set_angle(double angle)

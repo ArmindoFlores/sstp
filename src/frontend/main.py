@@ -16,7 +16,7 @@ def main():
     ax = fig.add_subplot(111)
     ax.grid()
     
-    ax.scatter([p[0] for p in data], [p[1] for p in data], color="red")
+    ax.scatter([p[0] for p in data], [p[1] for p in data], color="red", s=1)
     
     ax.scatter(0, 0, color="blue")
     
