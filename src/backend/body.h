@@ -19,24 +19,28 @@ namespace SSTP {
     */
     class Body {
     public:
-        Body(const Vector& direction, double semi_major_axis, double excentricity);
+        Body(const Vector& direction, double semi_major_axis, double eccentricity);
 
         Vector position() const;
         OrbitType orbit_type() const;
+        Vector direction() const;
         double semi_major_axis() const;
         double semi_minor_axis() const;
+        double apsis() const;
+        double periapsis() const;
         double focal_distance() const;
-        double excentricity() const;
+        double eccentricity() const;
         double eccentric_anomaly() const;
         double angle() const;
         double radius() const;
+        double inclination() const;
         void set_angle(double angle);
+        void update_orbit(const Vector& direction, double semi_major_axis, double excentricity);
+        void update_orbit(double semi_major_axis, double excentricity);
 
     private:
         double a, b, c, e, theta, i;
-        Vector direction;
-
-        void calculate_parameters(const Vector& direction, double semi_major_axis, double excentricity);
+        Vector d;
     };
 }
 
