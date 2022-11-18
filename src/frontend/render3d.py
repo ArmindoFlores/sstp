@@ -145,12 +145,13 @@ glfw.make_context_current(window)
 # load here the 3d meshes
 earth_indices, earth_buffer = ObjLoader.load_model(os.path.join(basedir, "..", "..", "objects", "sphere.obj"), True, True)
 sun_indices, sun_buffer = ObjLoader.load_model(os.path.join(basedir, "..", "..", "objects", "sphere.obj"), True, True, 5.0)
+elipse_indices, elipse_buffer = ObjLoader.load_model(os.path.join(basedir, "..", "..", "objects", "floor.obj"))
 
 shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
 # VAO and VBO
-VAO = glGenVertexArrays(2)
-VBO = glGenBuffers(2)
+VAO = glGenVertexArrays(3)
+VBO = glGenBuffers(3)
 
 # earth VAO
 glBindVertexArray(VAO[0])
@@ -167,6 +168,7 @@ glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, earth_buffer.itemsize * 8, ctype
 # earth normals
 glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, earth_buffer.itemsize * 8, ctypes.c_void_p(20))
 glEnableVertexAttribArray(2)
+
 
 # sun VAO
 glBindVertexArray(VAO[1])
@@ -185,10 +187,27 @@ glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sun_buffer.itemsize * 8, ctypes.
 glEnableVertexAttribArray(2)
 
 
+# earth VAO
+glBindVertexArray(VAO[2])
+# earth Vertex Buffer Object
+glBindBuffer(GL_ARRAY_BUFFER, VBO[0])
+glBufferData(GL_ARRAY_BUFFER, earth_buffer.nbytes, earth_buffer, GL_STATIC_DRAW)
+
+# earth vertices
+glEnableVertexAttribArray(0)
+glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, earth_buffer.itemsize * 8, ctypes.c_void_p(0))
+# earth textures
+glEnableVertexAttribArray(1)
+glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, earth_buffer.itemsize * 8, ctypes.c_void_p(12))
+# earth normals
+glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, earth_buffer.itemsize * 8, ctypes.c_void_p(20))
+glEnableVertexAttribArray(2)
+
 
 textures = glGenTextures(3)
 load_texture(os.path.join(basedir, "..", "..", "textures", "2k_earth.jpg"), textures[0])
 load_texture(os.path.join(basedir, "..", "..", "textures", "2k_sun.jpg"), textures[1])
+load_texture(os.path.join(basedir, "..", "..", "textures", "2k_uranus.jpg"), textures[2])
 
 glUseProgram(shader)
 glClearColor(0, 0.1, 0.1, 1)
@@ -199,6 +218,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 projection = pyrr.matrix44.create_perspective_projection_matrix(45, WIDTH / HEIGHT, 0.1, 100)
 earth_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([6, 4, 0]))
 sun_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([-4, 4, 0]))
+elipse_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0, 0]))
 
 model_loc = glGetUniformLocation(shader, "model")
 proj_loc = glGetUniformLocation(shader, "projection")
@@ -227,13 +247,19 @@ while not glfw.window_should_close(window):
     glBindVertexArray(VAO[0])
     glBindTexture(GL_TEXTURE_2D, textures[0])
     glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
-    glDrawArrays(GL_TRIANGLES, 0, len(sun_indices))
+    glDrawArrays(GL_TRIANGLES, 0, len(earth_indices))
 
     # draw the sun
     glBindVertexArray(VAO[1])
     glBindTexture(GL_TEXTURE_2D, textures[1])
     glUniformMatrix4fv(model_loc, 1, GL_FALSE, model2)
     glDrawArrays(GL_TRIANGLES, 0, len(sun_indices))
+
+    # draw the elipse
+    glBindVertexArray(VAO[2])
+    glBindTexture(GL_TEXTURE_2D, textures[2])
+    glUniformMatrix4fv(model_loc, 1, GL_FALSE, elipse_pos)
+    glDrawArrays(GL_TRIANGLES, 0, len(elipse_indices))
 
     glfw.swap_buffers(window)
 
