@@ -62,7 +62,7 @@ void main()
         out_color = texture(s_texture, v_texture);
     }
     else if (switcher == 1){
-        out_color = vec4(v_color, 1.0);   
+        out_color = vec4(1.0, 0.0, 0.0, 1.0);   
     }
     
 }
@@ -246,6 +246,7 @@ elipse_pos = pyrr.matrix44.create_from_translation(pyrr.Vector3([0, 0.1, 0.1]))
 model_loc = glGetUniformLocation(shader, "model")
 proj_loc = glGetUniformLocation(shader, "projection")
 view_loc = glGetUniformLocation(shader, "view")
+switcher_loc = glGetUniformLocation(shader, "switcher")
 
 glUniformMatrix4fv(proj_loc, 1, GL_FALSE, projection)
 
@@ -288,6 +289,8 @@ while running:
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
+    glUniform1i(switcher_loc, 0)
+
     view = cam.get_view_matrix()
     glUniformMatrix4fv(view_loc, 1, GL_FALSE, view)
 
@@ -318,6 +321,7 @@ while running:
     model = pyrr.matrix44.multiply(rot_elipse_x, elipse_pos)
     model = pyrr.matrix44.multiply(rot_elipse_y, model)
     glBindVertexArray(elipse_VAO)
+    glUniform1i(switcher_loc, 1)
     glUniformMatrix4fv(model_loc, 1, GL_FALSE, model)
     glDrawElements(GL_TRIANGLES, len(elipse_indices), GL_UNSIGNED_INT, None)
 
