@@ -131,8 +131,8 @@ std::string SSTP::IPCServer::process_command(const boost::json::value& cmd)
             auto position = body.position();
             boost::json::array p_array(3);
             p_array[0] = position[0];
-            p_array[1] = position[1];
-            p_array[2] = 0;
+            p_array[1] = 0;
+            p_array[2] = position[1];
             positions.push_back(p_array);
         }
         std::string response = boost::json::serialize(positions);
