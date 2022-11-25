@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 
 
+
 def main():
     with open("points.txt", "r") as f:
         data = f.readlines()
