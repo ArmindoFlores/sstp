@@ -7,7 +7,7 @@ const char* SSTP::orbit_type_to_string(SSTP::OrbitType ot)
     return text[std::size_t(ot)];    
 }
 
-SSTP::Body::Body(const SSTP::Vector& d, double a, double e, double mu) : a(a), e(e), theta(0), mu(mu), n(0), d(d)
+SSTP::Body::Body(const SSTP::Vector& d, double a, double e, double mu) : a(a), e(e), theta(0), mu(mu), n(0), h(0), d(d)
 {
     if (d.dimension() < 2 || d.dimension() > 3) {
         throw std::invalid_argument(
@@ -40,14 +40,18 @@ SSTP::Vector SSTP::Body::position(bool radial) const
 SSTP::Vector SSTP::Body::velocity(bool radial) const
 {
     double v = std::sqrt(2 * mu * (1 / radius() - 1 / (2 * a)));
+
+    double arg = h / (radius() * v);
+    double gamma = arg < 1 ? std::acos(arg) : 0;
+
     Vector result(2);
     if (radial) {
         result[0] = v;
-        result[1] = theta + i - M_PI_2;
+        result[1] = theta + i - M_PI_2 + gamma;
     }
     else {
-        result[0] = -v * std::sin(theta + i);
-        result[1] = v * std::cos(theta + i);
+        result[0] = -v * std::sin(theta + i + gamma);
+        result[1] = v * std::cos(theta + i + gamma);
     }
     return result;
 }
@@ -154,6 +158,9 @@ void SSTP::Body::update_orbit(const SSTP::Vector& d, double a, double e)
     b = std::sqrt(a*a * (1 - e*e));
     i = std::atan2(this->d[1], this->d[0]);
     n = std::sqrt(mu / std::pow(a, 3));
+
+    double r = this->a * (1 + this->e);
+    h = r * std::sqrt(2 * mu * (1 / r - 1 / (2 * a)));
 }
 
 void SSTP::Body::update_orbit(double a, double e)
@@ -163,6 +170,9 @@ void SSTP::Body::update_orbit(double a, double e)
     c = a * e;
     b = std::sqrt(a*a * (1 - e*e));
     n = std::sqrt(mu / std::pow(a, 3));
+
+    double r = this->a * (1 + this->e);
+    h = r * std::sqrt(2 * mu * (1 / r - 1 / (2 * a))); 
 }
 
 void SSTP::Body::timestep(double ts)

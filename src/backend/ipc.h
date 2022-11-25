@@ -1,10 +1,15 @@
 #ifndef _IPC_H_
 #define _IPC_H_
 
-#include <future>
+#include <condition_variable>
+#include <mutex>
+#include <optional>
+#include <queue>
 #include <string>
 #include <thread>
-#include <vector>
+
+#include <boost/json.hpp>
+#include "solarsys.h"
 
 namespace SSTP {
     class IPCServer {
@@ -16,12 +21,17 @@ namespace SSTP {
         bool main_loop();
         void stop();
         void process_client_connection(int clientfd);
+        std::optional<boost::json::value> get_command(bool wait=false);
+        SolarSystem& solar_system();
+        std::string process_command(const boost::json::value& cmd);
 
     private:
+        SolarSystem ss;
         std::string socket_path;
         int socketfd;
-        std::vector<std::thread> active_threads;
-        std::vector<std::future<void>> active_futures;
+        std::mutex queue_mutex;
+        std::condition_variable queue_cv;
+        std::queue<boost::json::value> command_queue;
     };
 }
 

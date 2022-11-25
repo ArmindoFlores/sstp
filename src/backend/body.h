@@ -43,7 +43,7 @@ namespace SSTP {
         void timestep(double ts);
 
     private:
-        double a, b, c, e, theta, i, mu, n;
+        double a, b, c, e, theta, i, mu, n, h;
         Vector d;
     };
 }
