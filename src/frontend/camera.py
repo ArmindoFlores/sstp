@@ -3,7 +3,7 @@ from math import sin, cos, radians
 
 class Camera:
     def __init__(self):
-        self.camera_pos = Vector3([0.0, 8.0, 3.0])
+        self.camera_pos = Vector3([0.0, 20, 0.0])
         self.camera_front = Vector3([0.0, 0.0, 0.0])
         self.camera_up = Vector3([0.0, 0.0, 0.0])
         self.camera_right = Vector3([1.0, 0.0, 0.0])
@@ -15,7 +15,7 @@ class Camera:
     def get_view_matrix(self):
         return matrix44.create_look_at(self.camera_pos, self.camera_pos + self.camera_front, self.camera_up)
 
-    def process_mouse_movement(self, xoffset, yoffset, constrain_pitch=True):
+    def process_mouse_movement(self, xoffset, yoffset, constrain_pitch=False):
         xoffset *= self.mouse_sensitivity
         yoffset *= self.mouse_sensitivity
 
