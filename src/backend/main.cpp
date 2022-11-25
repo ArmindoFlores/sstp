@@ -34,7 +34,10 @@ int main()
 
     while (true) {
         auto stop = std::chrono::high_resolution_clock::now();
-        server.solar_system().timestep((stop - start).count() / 1e9 * 60 * 60 * 24);
+        auto ts = (stop - start).count() / 1e9 * 60 * 60 * 24;
+        start = stop;
+        std::cout << "TS update: " << ts << std::endl;
+        server.solar_system().timestep(ts);
     }
     
     // for (size_t i = 0; i < 5000; i++) {
