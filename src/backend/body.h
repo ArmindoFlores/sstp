@@ -19,9 +19,10 @@ namespace SSTP {
     */
     class Body {
     public:
-        Body(const Vector& direction, double semi_major_axis, double eccentricity);
+        Body(const Vector& direction, double semi_major_axis, double eccentricity, double gravitational_parameter);
 
-        Vector position() const;
+        Vector position(bool radial=false) const;
+        Vector velocity(bool radial=false) const;
         OrbitType orbit_type() const;
         Vector direction() const;
         double semi_major_axis() const;
@@ -32,14 +33,17 @@ namespace SSTP {
         double eccentricity() const;
         double eccentric_anomaly() const;
         double angle() const;
+        double gravitational_parameter() const;
         double radius() const;
         double inclination() const;
         void set_angle(double angle);
+        void set_gravitational_parameter(double mu);
         void update_orbit(const Vector& direction, double semi_major_axis, double excentricity);
         void update_orbit(double semi_major_axis, double excentricity);
+        void timestep(double ts);
 
     private:
-        double a, b, c, e, theta, i;
+        double a, b, c, e, theta, i, mu, n;
         Vector d;
     };
 }

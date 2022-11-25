@@ -5,6 +5,8 @@
 #include "body.h"
 #include "vector.h"
 
+#define ONE_AU 1.495978707e11
+
 namespace SSTP
 {
     enum class PlanetOrbit
@@ -30,9 +32,13 @@ namespace SSTP
     {
     public:
         SolarSystem();
+        const std::vector<Body>& get_planets() const;
+        void add_satellite(const Body& satellite);
+        const std::vector<Body>& get_satellites() const;
+        void timestep(double ts);
 
     private:
-        std::vector<Body> planets;
+        std::vector<Body> planets, satellites;
     };
 }
 

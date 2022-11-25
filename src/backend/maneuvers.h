@@ -12,8 +12,7 @@ namespace SSTP {
         Body transfer_orbit;
     };
 
-    Vector orbit_velocity(const Body& orbit, double mu);
-    HohmannInfo hohmann_transfer(const Body& orbit1, const Body& orbit2, double mu);
+    HohmannInfo hohmann_transfer(const Body& orbit1, const Body& orbit2);
 }
 
 #endif

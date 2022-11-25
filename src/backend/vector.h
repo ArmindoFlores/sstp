@@ -39,6 +39,7 @@ namespace SSTP {
         Vector normalized() const;
 
         friend std::ostream &operator<<(std::ostream &os, const Vector& v);
+
         friend Vector operator+(double x, const Vector& v);
         friend Vector operator-(double x, const Vector& v);
         friend Vector operator*(double x, const Vector& v);
