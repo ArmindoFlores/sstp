@@ -36,7 +36,6 @@ int main()
         auto stop = std::chrono::high_resolution_clock::now();
         auto ts = (stop - start).count() / 1e9 * 60 * 60 * 24;
         start = stop;
-        std::cout << "TS update: " << ts << std::endl;
         server.solar_system().timestep(ts);
     }
     
