@@ -3,18 +3,18 @@ The purpose of this application is to help plan interplanetary trajectories in t
 
 ## TODO List
 ### Backend
-- [ ] Simulation of the Sun and all the planets' positions
+- [x] Simulation of the Sun and all the planets' positions
 - [ ] Trajectory simulation using instant impulses and influence zones
 - [ ] Trajectory simulation without using instant impulses
 - [ ] Trajectory simulation numerically integrating the acceleration expression (worth it?)
 - [ ] Trajectory planning (testing all feasable gravity assists)
 - [ ] Trip/Round-trip time calculation
-- [ ] IPC server
+- [x] IPC server
 - ...
 
 ### Frontend
-- [ ] IPC client
-- [ ] Planet display
+- [x] IPC client
+- [x] Planet display
 - [ ] Orbits display
 - [ ] Trajectory display
 - ...
